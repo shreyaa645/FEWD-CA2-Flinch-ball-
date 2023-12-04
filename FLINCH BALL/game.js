@@ -1,13 +1,15 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 let spacebarPressed = false;
-var urlParams = new URLSearchParams(window.location.search);
-var nickname = urlParams.get('nickname');
 const backgroundAudio = document.getElementById('background-audio');
 const hitAudio = document.getElementById('hit-audio');
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+function setCanvasSize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
+window.addEventListener('resize', setCanvasSize);
 
 const fish = {
     x: 50,
@@ -27,8 +29,8 @@ const obstacles = [];
 const particles = [];
 
 let obstacleSpawnDistance = 0;
-const minObstacleDistance = 500; 
-const maxObstacleDistance = 800; 
+const minObstacleDistance = 500;
+const maxObstacleDistance = 800;
 let gap = 300;
 let score = 0;
 
@@ -135,9 +137,9 @@ function updateObstacles() {
             hitAudio.play();
             gameOver();
         }
-    } 
+    }
 
-    if (Math.random() < 0.008) { 
+    if (Math.random() < 0.008) {
         const obstacleHeight = Math.random() * (canvas.height - 200) + 50;
         obstacles.push({
             x: canvas.width + 60,
@@ -156,8 +158,6 @@ function updateObstacles() {
         });
     }
 }
-
-
 
 function drawParticles() {
     for (const particle of particles) {
@@ -238,7 +238,7 @@ function gameOver() {
 
     setTimeout(function () {
         window.location.href = 'retry.html';
-    }, 300); 
+    }, 300);
 }
 
 document.addEventListener('keydown', function (event) {
@@ -261,6 +261,5 @@ setInterval(function () {
     updateFish();
     updateObstacles();
     updateParticles();
-    score += 1; 
+    score += 1;
 }, 1000 / 40);
-
